@@ -1,0 +1,97 @@
+<div class="categories-container">
+  <h2 class="page-title">Category Management</h2>
+
+  @if (successMessage) {
+    <div class="alert alert-success">{{ successMessage }}</div>
+  }
+
+  @if (errorMessage) {
+    <div class="alert alert-error">{{ errorMessage }}</div>
+  }
+
+  <section class="category-card">
+    <div class="card-title">
+      {{ isEditing ? 'Update Category' : 'Add Category' }}
+    </div>
+
+    <form class="category-form" (ngSubmit)="saveCategory()">
+      <div class="form-group">
+        <label for="categoryName">Category Name</label>
+        <input
+          id="categoryName"
+          type="text"
+          class="form-control"
+          name="name"
+          [(ngModel)]="name"
+          placeholder="Enter category name"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="categoryDescription">Description</label>
+        <textarea
+          id="categoryDescription"
+          class="form-control"
+          name="description"
+          [(ngModel)]="description"
+          placeholder="Enter description"
+        ></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving">
+          {{ isSaving ? 'Saving...' : (isEditing ? 'Update Category' : 'Add Category') }}
+        </button>
+
+        @if (isEditing) {
+          <button type="button" class="btn btn-secondary" (click)="resetForm()">
+            Cancel
+          </button>
+        }
+      </div>
+    </form>
+  </section>
+
+  <h3 class="section-title">Category List</h3>
+
+  @if (isLoading) {
+    <p class="loading-message">Loading categories...</p>
+  } @else if (categories.length === 0) {
+    <p class="loading-message">No categories found.</p>
+  } @else {
+    <div class="category-table-wrapper">
+      <table class="category-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (category of categories; track category.categoryId) {
+            <tr>
+              <td>{{ category.categoryId }}</td>
+              <td>{{ category.name }}</td>
+              <td>{{ category.description || '-' }}</td>
+              <td>
+                <button
+                  class="btn btn-edit"
+                  type="button"
+                  (click)="editCategory(category)"
+                >Edit</button>
+                <button
+                  class="btn btn-delete"
+                  type="button"
+                  (click)="deleteCategory(category.categoryId)"
+                >Delete</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
