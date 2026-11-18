@@ -1,0 +1,99 @@
+
+<div class="products-container">
+
+  <h1>Products</h1>
+  <p>Browse our available products</p>
+
+  <div class="filters">
+
+    <input
+      type="text"
+      placeholder="Search products..."
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="onSearchChange()"
+    />
+
+    <select
+      [(ngModel)]="selectedCategoryId"
+      (ngModelChange)="onCategoryChange()"
+    >
+      <option value="">All Categories</option>
+
+      @for (category of categories; track category.categoryId) {
+        <option [value]="category.categoryId">
+          {{ category.name }}
+        </option>
+      }
+    </select>
+
+  </div>
+
+  @if (isLoading) {
+    <p class="message">Loading products...</p>
+  }
+
+  @if (errorMessage) {
+    <p class="error">{{ errorMessage }}</p>
+  }
+
+  @if (!isLoading && !errorMessage) {
+
+    @if (products.length === 0) {
+      <p class="message">No products found.</p>
+    }
+
+    <div class="product-grid">
+
+    @for (product of products; track product.productId) {
+  <a
+    [routerLink]="['/products', product.productId]"
+    class="product-card"
+  >
+    @if (product.imageUrl) {
+      <img [src]="product.imageUrl" [alt]="product.name" />
+    }
+
+    <div class="product-info">
+      <h3>{{ product.name }}</h3>
+      <p>{{ product.categoryName }}</p>
+      <h3>₹{{ product.price }}</h3>
+      <p>Stock: {{ product.stock }}</p>
+      <span>
+        {{ product.isActive ? 'Available' : 'Unavailable' }}
+      </span>
+    </div>
+  </a>
+}
+
+    </div>
+
+    @if (totalPages > 0) {
+      <div class="pagination">
+
+        <button
+          (click)="previousPage()"
+          [disabled]="currentPage === 1"
+        >
+          Previous
+        </button>
+
+        <span>
+          Page {{ currentPage }} of {{ totalPages }}
+        </span>
+
+        <button
+          (click)="nextPage()"
+          [disabled]="currentPage >= totalPages"
+        >
+          Next
+        </button>
+
+      </div>
+    }
+
+  }
+
+  <p class="total-count">Total Products: {{ totalCount }}</p>
+  
+
+</div>

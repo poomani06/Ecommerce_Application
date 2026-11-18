@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { CategoryService } from '../../core/services/category';
 import { Category, CreateCategory, UpdateCategory } from '../../models/category.model';
@@ -36,11 +37,11 @@ export class Categories implements OnInit {
     this.errorMessage = '';
 
     this.categoryService.getCategories().subscribe({
-      next: (data) => {
+      next: (data: Category[]) => {
         this.categories = data;
         this.isLoading = false;
       },
-      error: (error) => {
+      error: (error: HttpErrorResponse) => {
         this.errorMessage =
           error.error?.message || 'Unable to load categories.';
         this.isLoading = false;
@@ -75,7 +76,7 @@ export class Categories implements OnInit {
             this.loadCategories();
             this.isSaving = false;
           },
-          error: (error) => {
+          error: (error: HttpErrorResponse) => {
             this.errorMessage =
               error.error?.message || 'Unable to update category.';
             this.isSaving = false;
@@ -94,7 +95,7 @@ export class Categories implements OnInit {
           this.loadCategories();
           this.isSaving = false;
         },
-        error: (error) => {
+        error: (error: HttpErrorResponse) => {
           this.errorMessage =
             error.error?.message || 'Unable to add category.';
           this.isSaving = false;
@@ -130,7 +131,7 @@ export class Categories implements OnInit {
         this.successMessage = 'Category deleted successfully.';
         this.loadCategories();
       },
-      error: (error) => {
+      error: (error: HttpErrorResponse) => {
         this.errorMessage =
           error.error?.message || 'Unable to delete category.';
       }
