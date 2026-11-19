@@ -3,7 +3,8 @@ import { Home } from './features/home/home';
 import { Categories } from './features/categories/categories';
 import { Products } from './features/products/products';
 import { ProductDetails } from './features/product-details/product-details';
-
+import { Login } from './features/auth/login/login';
+import { Register } from './features/auth/register/register';
 export const routes: Routes = [
   {
     path: '',
@@ -18,6 +19,8 @@ export const routes: Routes = [
   component: Products
   },
   { path: 'products/:id', component: ProductDetails },
+  { path: 'login', component: Login },
+  { path: 'register', component: Register },
   {
     path: '**',
     redirectTo: ''

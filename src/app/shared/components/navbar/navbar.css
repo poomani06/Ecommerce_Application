@@ -60,3 +60,9 @@
     gap: 24px;
   }
 }
+.logout-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -7,4 +7,13 @@ import { RouterLink } from '@angular/router';
   styleUrl: './home.css',
   templateUrl: './home.html',
 })
-export class Home {}
+export class Home implements OnInit {
+
+  successMessage = '';
+
+  ngOnInit(): void {
+    this.successMessage = localStorage.getItem('authMessage') || '';
+
+    localStorage.removeItem('authMessage');
+  }
+}
