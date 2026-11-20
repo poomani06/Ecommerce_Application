@@ -1,12 +1,14 @@
-﻿using ECommerce.API.DTOs.Product;
+using ECommerce.API.DTOs.Product;
 using ECommerce.API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ProductsController : ControllerBase
+  [Authorize]
+  [Route("api/[controller]")]
+  [ApiController]
+  public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
 
@@ -63,7 +65,8 @@ namespace ECommerce.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateProductDto dto)
+    [Authorize(Policy = "AdminOnly")]
+    public async Task<IActionResult> Create(CreateProductDto dto)
         {
             try
             {

@@ -1,12 +1,15 @@
-﻿using ECommerce.API.DTOs.Category;
+using ECommerce.API.DTOs.Category;
 using ECommerce.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace ECommerce.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CategoriesController : ControllerBase
+  [Authorize]
+  [Route("api/[controller]")]
+  [ApiController]
+  public class CategoriesController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
 
@@ -37,7 +40,8 @@ namespace ECommerce.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateCategoryDto dto)
+        [Authorize(Policy = "AdminOnly")]
+    public async Task<IActionResult> Create(CreateCategoryDto dto)
         {
             try
             {

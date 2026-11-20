@@ -1,4 +1,4 @@
-﻿using ECommerce.API.DTOs.Category;
+using ECommerce.API.DTOs.Category;
 using ECommerce.API.Models;
 using ECommerce.API.Repositories.Interfaces;
 using ECommerce.API.Services.Interfaces;
@@ -60,7 +60,7 @@ namespace ECommerce.API.Services
             var category = new Category
             {
                 Name = name,
-                Description = dto.Description.Trim()
+                Description = dto.Description?.Trim() ?? string.Empty
             };
 
             await _categoryRepository.AddAsync(category);
@@ -96,9 +96,9 @@ namespace ECommerce.API.Services
             }
 
             category.Name = name;
-            category.Description = dto.Description.Trim();
+      category.Description = dto.Description?.Trim() ?? string.Empty;
 
-            await _categoryRepository.UpdateAsync(category);
+      await _categoryRepository.UpdateAsync(category);
 
             return new CategoryResponseDto
             {

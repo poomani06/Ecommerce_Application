@@ -16,6 +16,18 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 var jwtKey = builder.Configuration["Jwt:Key"]!;
+builder.Services.AddAuthorization(options =>
+{
+  options.AddPolicy("AdminOnly", policy =>
+      policy.RequireRole("Admin"));
+
+  options.AddPolicy("CustomerOnly", policy =>
+      policy.RequireRole("Customer"));
+
+  options.AddPolicy("AdminOrCustomer", policy =>
+      policy.RequireRole("Admin", "Customer"));
+});
+
 
 builder.Services.AddAuthentication(options =>
 {
@@ -59,6 +71,16 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+  var context = scope.ServiceProvider
+      .GetRequiredService<ApplicationDbContext>();
+
+  await RoleSeeder.SeedAdminAsync(
+      context,
+      app.Configuration);
+}
 
 app.UseCors("AllowAngular");
 
