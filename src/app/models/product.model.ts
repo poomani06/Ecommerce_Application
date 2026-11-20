@@ -17,3 +17,15 @@ export interface ProductListResponse {
   pageSize: number;
   totalPages: number;
 }
+export interface CreateProduct {
+  name: string;
+  description?: string;
+  price: number;
+  stock: number;
+  imageUrl?: string;
+  categoryId: number;
+}
+
+export interface UpdateProduct extends CreateProduct {
+  isActive: boolean;
+}

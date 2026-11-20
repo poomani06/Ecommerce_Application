@@ -5,6 +5,9 @@ import { Products } from './features/products/products';
 import { ProductDetails } from './features/product-details/product-details';
 import { Login } from './features/auth/login/login';
 import { Register } from './features/auth/register/register';
+import { Products as AdminProducts } from './features/admin/products/products';
+
+
 export const routes: Routes = [
   {
     path: '',
@@ -21,6 +24,10 @@ export const routes: Routes = [
   { path: 'products/:id', component: ProductDetails },
   { path: 'login', component: Login },
   { path: 'register', component: Register },
+  {
+  path: 'admin/products',
+  component: AdminProducts
+},
   {
     path: '**',
     redirectTo: ''

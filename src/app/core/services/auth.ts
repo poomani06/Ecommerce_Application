@@ -47,6 +47,16 @@ export class Auth {
   getToken(): string | null {
     return localStorage.getItem('token');
   }
+  isAdmin(): boolean {
+  const user = localStorage.getItem('user');
+
+  if (!user) {
+    return false;
+  }
+
+  const authResponse: AuthResponse = JSON.parse(user);
+  return authResponse.role === 'Admin';
+}
 
   logout(): void {
   localStorage.removeItem('token');

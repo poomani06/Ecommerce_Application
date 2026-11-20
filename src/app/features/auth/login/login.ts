@@ -31,11 +31,15 @@ export class Login {
       email: this.email,
       password: this.password
     }).subscribe({
-      next: () => {
-        this.isLoading = false;
-        localStorage.setItem('authMessage', 'Login successful! Welcome back.');
-        this.router.navigate(['/']);
-      },
+      next: (response: { role: string }) => {
+  this.isLoading = false;
+
+  if (response.role === 'Admin') {
+    this.router.navigate(['/admin/products']);
+  } else {
+    this.router.navigate(['/products']);
+  }
+},
       error: (error: HttpErrorResponse) => {
         this.isLoading = false;
         this.errorMessage =

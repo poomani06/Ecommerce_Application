@@ -1,0 +1,118 @@
+<div class="admin-products">
+  <h2>Manage Products</h2>
+
+  <p>Products loaded: {{ products.length }}</p>
+  
+  <button type="button" (click)="showAddForm = !showAddForm">
+  {{ showAddForm ? 'Cancel' : 'Add Product' }}
+</button>
+
+<div *ngIf="showAddForm">
+  <h3>Add New Product</h3>
+
+  <form (ngSubmit)="addProduct()">
+
+    <input
+      type="text"
+      name="name"
+      placeholder="Product Name"
+      [(ngModel)]="newProduct.name"
+      required
+    />
+
+    <textarea
+      name="description"
+      placeholder="Description"
+      [(ngModel)]="newProduct.description"
+    ></textarea>
+
+    <input
+      type="number"
+      name="price"
+      placeholder="Price"
+      [(ngModel)]="newProduct.price"
+      min="0.01"
+      step="0.01"
+      required
+    />
+
+    <input
+      type="number"
+      name="stock"
+      placeholder="Stock"
+      [(ngModel)]="newProduct.stock"
+      min="0"
+      required
+    />
+
+    <input
+      type="text"
+      name="imageUrl"
+      placeholder="Image URL"
+      [(ngModel)]="newProduct.imageUrl"
+    />
+
+    <select
+      name="categoryId"
+      [(ngModel)]="newProduct.categoryId"
+      required
+    >
+      <option [ngValue]="0" disabled>Select Category</option>
+
+      <option
+        *ngFor="let category of categories"
+        [ngValue]="category.categoryId"
+      >
+        {{ category.name }}
+      </option>
+    </select>
+
+    <button type="submit">Save Product</button>
+
+  </form>
+</div>
+
+  <p class="success" *ngIf="successMessage">
+    {{ successMessage }}
+  </p>
+
+  <p class="error" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Category</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{ product.productId }}</td>
+        <td>{{ product.name }}</td>
+        <td>₹{{ product.price }}</td>
+        <td>{{ product.stock }}</td>
+        <td>{{ product.categoryName }}</td>
+        <td>{{ product.isActive ? 'Active' : 'Inactive' }}</td>
+        <td>
+          <button
+            *ngIf="product.isActive"
+            (click)="deleteProduct(product.productId)">
+            Deactivate
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="products.length === 0">
+    No products found.
+  </p>
+</div>
